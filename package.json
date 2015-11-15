@@ -8,7 +8,8 @@
     "dev": "NODE_ENV=development node develop.js",
     "package": "echo \"Error: no package script \" && exit 1"
   },
-  "author": "Dmitry Chirkin <josser@nixsolutions.com>",
+  "author": "Dmitry Chirkin <dmitry.chirkin@gmail.com>",
+  "repository": "josser/pickler",
   "license": "MIT",
   "dependencies": {
     "photon": "connors/photon",
