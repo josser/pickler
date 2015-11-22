@@ -3,7 +3,9 @@ import { connect } from "react-redux";
 
 class Explorer extends Component {
   render() {
-    return <div>This is explorer</div>
+    return (
+      <div>This is explorer</div>
+    );
   }
 
 }

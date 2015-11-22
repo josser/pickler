@@ -13,7 +13,12 @@ export default class Root extends Component {
 					<ReduxRouter>
 						{routes}
 					</ReduxRouter>
-				</Provider>		
+				</Provider>
+				{/**}
+				<DebugPanel bottom right top>
+        	<DevTools store={store} monitor={LogMonitor} />
+        </DebugPanel>
+				{**/}
 			</div>
 		);
 	}

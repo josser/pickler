@@ -3,10 +3,9 @@ var webpack = require("webpack");
 var webpackTargetElectronRenderer = require('webpack-target-electron-renderer');
 var isDevelopment = process.env.NODE_ENV === 'development';
 
-module.exports = {
+var options = {
+    debug: true,
     devtool: isDevelopment ? 'source-map' : 'eval',
-    // this is required for native modules in electron
-    target: webpackTargetElectronRenderer(module.exports),
     entry: (function (){
       var entries = [
         './app/entrypoints/main'
@@ -21,19 +20,24 @@ module.exports = {
     output: {
         path: path.join(__dirname, "app", "build"),
         filename: "bundle.js",
+        libraryTarget: 'commonjs2',
         publicPath: 'http://localhost:8080/build/'
     },
 
     plugins: (function (){
+      
+      var plugins = [new webpack.optimize.DedupePlugin()];
 
-      return isDevelopment ? [
-        new webpack.HotModuleReplacementPlugin()
-      ] : [];
+      if (isDevelopment) {
+        plugins.push(new webpack.HotModuleReplacementPlugin())
+      }
+
+      return plugins;
 
     })(),
 
     resolve: {
-      extensions: ['', '.js', '.jsx'],
+      extensions: ['', '.js', '.jsx', '.node', '.json'],
 	    root: [path.join(__dirname, "app")],
 	    modulesDirectories: ["node_modules"],
       packageMains: ['webpack', 'browser', 'web', 'browserify', ['jam', 'main'], 'main']
@@ -59,12 +63,16 @@ module.exports = {
       { test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,  loader: "url?limit=10000&mimetype=application/font-woff" },
       { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,    loader: "url?limit=10000&mimetype=application/octet-stream" },
       { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,    loader: "url?limit=10000&mimetype=application/vnd.ms-fontobject" },
-      { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,    loader: "url?limit=10000&mimetype=image/svg+xml" }
-
+      { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,    loader: "url?limit=10000&mimetype=image/svg+xml" },
       ]
     },
+
+    externals: ['pg-promise'],
 
     stats: {
       colors: true
     }
 };
+
+options.target = webpackTargetElectronRenderer(options);
+module.exports = options;
