@@ -81,7 +81,7 @@ class App extends Component {
             </div>
             <div className="form-actions">
              <button type="button" className="btn btn-form btn-primary">Add to favorites</button>
-             <button type="submit" className="btn btn-form btn-default">Connect</button>
+             <button type="submit" className="btn btn-form btn-default">Connect</button>             
             </div>
             </form>
             </div>
