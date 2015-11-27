@@ -9,7 +9,10 @@ var compiler = webpack(config);
 var server = new WebpackDevServer(compiler, {
   // webpack-dev-server options
   contentBase: path.join(__dirname, 'app'),
+  historyApiFallback: true,
   hot: true,
+  inline: true,
+  progress: true,
   publicPath: '/build/',
   stats: { colors: true },
 });

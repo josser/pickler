@@ -6,8 +6,8 @@ import { getConnection } from "reducers/connections";
 import Window from "components/Window";
 import Toolbar from "components/Toolbar";
 class App extends Component {
-  constructor (...args) {
-    super(...args);
+  constructor (args) {
+    super(args);
     this.handleConnect = this.handleConnect.bind(this);
     this.handleDsnChange = this.handleDsnChange.bind(this);
   }
@@ -81,7 +81,7 @@ class App extends Component {
             </div>
             <div className="form-actions">
              <button type="button" className="btn btn-form btn-primary">Add to favorites</button>
-             <button type="submit" className="btn btn-form btn-default">Connect</button>             
+             <button type="submit" className="btn btn-form btn-default">Connect</button>
             </div>
             </form>
             </div>

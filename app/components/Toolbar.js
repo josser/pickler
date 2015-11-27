@@ -1,10 +1,17 @@
 import React, { Component } from 'react';
+import { connect } from "react-redux";
 import photon from "photon/sass/photon.scss";
+import { getQuery } from 'reducers/connections';
 
-export default class Toolbar extends Component {
+export class Toolbar extends Component {
 
   constructor (...args) {
     super(...args);
+    this.handleExecQuery = this.handleExecQuery.bind(this);
+  }
+
+  handleExecQuery() {
+    this.props.dispatch(getQuery());
   }
 
   render () {
@@ -38,7 +45,7 @@ export default class Toolbar extends Component {
                 </button>
 
                 <button className="btn btn-default btn-dropdown pull-right">
-                  <span className="icon icon-megaphone"></span>
+                  <span className="icon icon-level-down" onClick={this.handleExecQuery}></span>
                 </button>
               </div>
 
@@ -53,3 +60,5 @@ export default class Toolbar extends Component {
       }
   }
 }
+
+export default connect()(Toolbar);

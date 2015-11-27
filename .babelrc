@@ -1,6 +1,9 @@
 {
-    "stage": 0,
-    "optional": [
-        "runtime"
-    ]
+  "presets": [ "es2015", "stage-0", "react"],
+  "plugins": ["syntax-async-functions","transform-regenerator"],
+  "env": {
+    "build": {
+      "optional": ["optimisation", "minification"]
+    }
+  }
 }

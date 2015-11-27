@@ -25,7 +25,7 @@ var options = {
     },
 
     plugins: (function (){
-      
+
       var plugins = [new webpack.optimize.DedupePlugin()];
 
       if (isDevelopment) {
@@ -53,7 +53,8 @@ var options = {
           }
           return loaders;
         })(),
-        include: path.join(__dirname, 'app')
+        include: path.join(__dirname, 'app'),
+        exclude: /node_modules/
       }, {
         test: /\.scss$/,
         loader: "style!css!sass?outputStyle=expanded"
