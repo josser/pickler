@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { pushState } from "redux-router";
-import { getConfig } from "reducers/appConfig";
+import { getConfig } from "reducers/config";
 import { getConnection } from "reducers/connections";
 import Window from "components/Window";
 import Toolbar from "components/Toolbar";
 class App extends Component {
+
   constructor (args) {
     super(args);
     this.handleConnect = this.handleConnect.bind(this);
@@ -65,7 +66,7 @@ class App extends Component {
                return (
                  <span key="item.title" className="nav-group-item">
                    <span className="icon icon-database"></span>
-                   {item.title}
+                   {item.get('title')}
                  </span>
                )
              })}
@@ -97,7 +98,7 @@ class App extends Component {
 
 const mapStateToProps = function (state) {
   return {
-    favorites: state.appConfig.favorites,
+    favorites: state.config.get('favorites'),
   }
 }
 

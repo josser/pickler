@@ -1,9 +1,9 @@
 import pg from 'pg-promise';
 import { pushState } from 'redux-router';
 
-const CONNECTIONS_CONNECT = 'CONNECTIONS/CONNECT';
-const CONNECTIONS_QUERY = 'CONNECTIONS/QUERY';
-const CONNECTIONS_QUERY_REQUESTED = 'CONNECTIONS/QUERY/REQUESTED';
+const CONNECT = 'PICKLER/CONNECTIONS/CONNECT';
+const QUERY = 'PICKLER/CONNECTIONS/QUERY';
+const QUERY_REQUESTED = 'PICKLER/CONNECTIONS/QUERY_REQUESTED';
 
 const initialState = {
   newQueryRequested: false,
@@ -16,7 +16,7 @@ export default function reducer(state = initialState, action = {}) {
   const {type, payload, error, meta} = action;
 
   switch (type) {
-    case CONNECTIONS_QUERY:
+    case QUERY:
       if (!error) {
         if (payload) {
           console.log('connection query with payload', payload);
@@ -39,12 +39,12 @@ export default function reducer(state = initialState, action = {}) {
       }
 
     break;
-    case CONNECTIONS_QUERY_REQUESTED:
+    case QUERY_REQUESTED:
       return Object.assign({}, state, {
         newQueryRequested: true
       })
     break;
-    case CONNECTIONS_CONNECT:
+    case CONNECT:
 
       var newState = Object.assign({}, state);
       if (!error) {
@@ -86,7 +86,7 @@ export function query (sql) {
 
   return async function (dispatch, getState) {
       dispatch({
-        type: CONNECTIONS_QUERY
+        type: QUERY
       });
 
       var state = getState();
@@ -95,7 +95,7 @@ export function query (sql) {
         var results = await db.query(sql);
       } catch (e ) {
         return dispatch({
-          type: CONNECTIONS_QUERY,
+          type: QUERY,
           error: true,
           meta: sql,
           payload: e
@@ -103,7 +103,7 @@ export function query (sql) {
       }
 
       return dispatch({
-        type: CONNECTIONS_QUERY,
+        type: QUERY,
         payload: results
       })
   }
@@ -112,14 +112,14 @@ export function query (sql) {
 
 export function getQuery () {
   return {
-    type: CONNECTIONS_QUERY_REQUESTED
+    type: QUERY_REQUESTED
   }
 }
 
 export function getConnection (dsn) {
   return async function(dispatch, getState) {
     dispatch({
-      type: CONNECTIONS_CONNECT,
+      type: CONNECT,
       meta: dsn
     });
 
@@ -128,7 +128,7 @@ export function getConnection (dsn) {
       await payload.query('select version()');
     } catch (e) {
       return dispatch({
-        type: CONNECTIONS_CONNECT,
+        type: CONNECT,
         error: true,
         meta: dsn,
         payload: e
@@ -138,7 +138,7 @@ export function getConnection (dsn) {
     dispatch(pushState(null, '/db/' + dsn));
 
     return dispatch({
-      type: CONNECTIONS_CONNECT,
+      type: CONNECT,
       payload: payload,
       meta: dsn
     });
