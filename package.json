@@ -13,7 +13,7 @@
   "license": "MIT",
   "dependencies": {
     "brace": "^0.7.0",
-    "history": "^1.13.1",
+    "history": "=1.13.1",
     "immutable": "^3.7.5",
     "pg-promise": "^2.7.2",
     "photon": "connors/photon",
@@ -35,7 +35,7 @@
     "babel-preset-react": "^6.3.13",
     "babel-preset-stage-0": "^6.3.13",
     "css-loader": "^0.23.0",
-    "electron-prebuilt": "^0.35.4",
+    "electron-prebuilt": "^0.36.0",
     "electron-rebuild": "^1.0.2",
     "file-loader": "^0.8.5",
     "node-sass": "^3.4.2",
