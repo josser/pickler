@@ -1,4 +1,4 @@
-import { devTools } from 'redux-devtools';
+import DevTools from 'containers/DevTools';
 import { compose, createStore, applyMiddleware } from 'redux';
 import rootReducer from 'reducers';
 import thunk from "redux-thunk";
@@ -17,8 +17,10 @@ if (process.env.NODE_ENV === 'production') {
   finalCreateStore = compose(
     applyMiddleware(...middleware),
     router,
-    devTools()
+    DevTools.instrument()
   )(createStore)
 }
 
-export default finalCreateStore(rootReducer)
+export default function configureStore(initialState) {
+  return finalCreateStore(rootReducer, initialState);
+};

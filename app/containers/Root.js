@@ -1,23 +1,21 @@
 import React, { Component } from "react";
 import { Provider } from "react-redux";
-import store from "configure/store";
+import configureStore from "configure/store";
 import { router } from 'configure/router';
 
-import { DevTools, DebugPanel, LogMonitor } from 'redux-devtools/lib/react';
+import DevTools from 'containers/DevTools';
+
+const store = configureStore();
 
 export default class Root extends Component {
 	render() {
 		return (
-			<div>
-				<Provider store={store}>
+			<Provider store={store}>
+				<div>
 					{router}
-				</Provider>
-				{/**}
-				<DebugPanel bottom right top>
-        	<DevTools store={store} monitor={LogMonitor} />
-        </DebugPanel>
-				{**/}
-			</div>
+					<DevTools />
+				</div>
+			</Provider>
 		);
 	}
 }
