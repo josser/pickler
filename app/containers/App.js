@@ -4,7 +4,14 @@ import { pushState } from "redux-router";
 import { getConfig } from "reducers/config";
 import { getConnection } from "reducers/connections";
 import Window from "components/Window";
+import WindowContent from "components/Window/Content";
 import Toolbar from "components/Toolbar";
+import TreeView from "components/TreeView";
+import Panes from "components/Panes";
+import Pane from "components/Panes/Item";
+import Tabs from "components/Tabs";
+import Tab from "Components/Tabs/Item";
+
 class App extends Component {
 
   constructor (args) {
@@ -15,7 +22,7 @@ class App extends Component {
 
   state = {
     dsn: 'postgres://josser@localhost/lounge-room'
-  }
+  };
 
   componentWillMount() {
     this.props.dispatch(getConfig());
@@ -39,57 +46,41 @@ class App extends Component {
       <Window>
         <Toolbar title="ReDB" type="header"></Toolbar>
 
-        <div className="tab-group">
-          <div className="tab-item active">
-            <span className="icon icon-cancel icon-close-tab"></span>
-            ReDB
-          </div>
-          <div className="tab-item tab-item-fixed">
+        <Tabs>
+          <Tab label="Pickler" />
+          <Tab fixed>
             <span className="icon icon-plus"></span>
-          </div>
-        </div>
-        <div className="window-content">
-         <div className="pane-group">
-           <div className="pane-sm sidebar">
-          <nav className="nav-group">
-           <h5 className="nav-group-title"></h5>
-          <span className="nav-group-item">
-            <span className="icon icon-flash"></span>
-            Quick Connection
-          </span>
-          </nav>
-
-           <nav className="nav-group">
-             <h5 className="nav-group-title">Favorites</h5>
-
-             {this.props.favorites.map(function(item){ //@todo move to favItem component
-               return (
-                 <span key="item.title" className="nav-group-item">
-                   <span className="icon icon-database"></span>
-                   {item.get('title')}
-                 </span>
-               )
-             })}
-
-            </nav>
-
-           </div>
-           <div className="pane padded-more">
-           <form onSubmit={this.handleConnect}>
-            <div className="form-group">
-             <label>Database DSN</label>
-             <input type="text" className="form-control" placeholder="pgsql://user:password@hostname:port/database" defaultValue={dsn} onChange={this.handleDsnChange} />
+          </Tab>
+        </Tabs>
+        <WindowContent>
+          <Panes>
+            <Pane role="sidebar" style={{"max-width": "200px"}}>
+              <nav className="nav-group">
+                <h5 className="nav-group-title"></h5>
+                <span className="nav-group-item">
+                  <span className="icon icon-flash"></span>
+                  Quick Connection
+                </span>
+              </nav>
+              <nav className="nav-group">
+                <h5 className="nav-group-title">Favorites</h5>
+                <TreeView />
+              </nav>
+            </Pane>
+            <div className="pane padded-more">
+              <form onSubmit={this.handleConnect}>
+                <div className="form-group">
+                  <label>Database DSN</label>
+                  <input type="text" className="form-control" placeholder="pgsql://user:password@hostname:port/database" defaultValue={dsn} onChange={this.handleDsnChange} />
+                </div>
+                <div className="form-actions">
+                  <button type="button" className="btn btn-form btn-primary">Add to favorites</button>
+                  <button type="submit" className="btn btn-form btn-default">Connect</button>
+                </div>
+              </form>
             </div>
-            <div className="form-actions">
-             <button type="button" className="btn btn-form btn-primary">Add to favorites</button>
-             <button type="submit" className="btn btn-form btn-default">Connect</button>
-            </div>
-            </form>
-            </div>
-
-          </div>
-
-        </div>
+          </Panes>
+        </WindowContent>
         <Toolbar title="status bar" type="footer"></Toolbar>
       </Window>
     );

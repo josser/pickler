@@ -13,7 +13,6 @@ export default class Root extends Component {
 			<Provider store={store}>
 				<div>
 					{router}
-					<DevTools />
 				</div>
 			</Provider>
 		);

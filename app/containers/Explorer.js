@@ -18,14 +18,14 @@ class Explorer extends Component {
 
   state = {
     query: 'select * from "Users"'
-  }
+  };
 
   updateQuery(value) {
     this.setState({query: value});
   }
 
   shouldComponentUpdate(nextProps) {
-     return nextProps.newQueryRequested !== this.props.newQueryRequested;     
+     return nextProps.newQueryRequested !== this.props.newQueryRequested;
   }
 
   componentWillUpdate (nextProps) {

@@ -1,0 +1,109 @@
+$padding-base: 16px;
+
+.treeview {
+  overflow-x: auto;
+  padding-left: $padding-base;
+
+  ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  li {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  input
+  {
+      position: absolute;
+      opacity: 0;
+
+      & + label + ul {
+        margin: 0 0 0 $padding-base;
+      }
+
+      & ~ ul {
+        display: none;
+      }
+
+      &:disabled + label {
+        cursor: default;
+        opacity: .6;
+      }
+
+      &:checked:not(:disabled) ~ ul
+      {
+          display: block;
+      }
+      &:checked + label::before {
+        background-color: orange;
+      }
+      &:checked::after {
+        content: '';
+        width: 10px;
+        height: 200px;
+        display: block;
+        background-color: green;
+      }
+  }
+
+  a {
+      text-decoration: none;
+      display: inline-block;
+      height: 16px;
+      line-height: 16px;
+      vertical-align: middle;
+      &:hover {
+        text-decoration: underline;
+      }
+  }
+
+  label {
+    cursor: pointer;
+    // background-color: green;
+    display: inline-block;
+    height: 16px;
+    line-height: 16px;
+    vertical-align: middle;
+    max-width: 220px;
+    text-overflow: ellipsis;
+
+    &::before {
+      background-color: magenta;
+      cursor: pointer;
+      content: "";
+      width: 16px;
+      height: 16px;
+      margin: 0 $padding-base 0 0;
+      display: inline-block;
+      line-height: 16px;
+      vertical-align: middle;
+    }
+  }
+
+}
+
+
+/* webkit adjacent element selector bugfix */
+@media screen and (-webkit-min-device-pixel-ratio:0)
+{
+    .css-treeview
+    {
+        -webkit-animation: webkit-adjacent-element-selector-bugfix infinite 1s;
+    }
+
+    @-webkit-keyframes webkit-adjacent-element-selector-bugfix
+    {
+        from
+        {
+            padding: 0;
+        }
+        to
+        {
+            padding: 0;
+        }
+    }
+}
