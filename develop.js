@@ -10,8 +10,7 @@ var server = new WebpackDevServer(compiler, {
   // webpack-dev-server options
   contentBase: path.join(__dirname, 'app'),
   historyApiFallback: true,
-  hot: true,
-  inline: true,
+  hot: true,  
   progress: true,
   publicPath: '/build/',
   stats: { colors: true },
