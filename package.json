@@ -16,7 +16,7 @@
     "classnames": "^2.2.3",
     "history": "^1.17.0",
     "immutable": "^3.7.6",
-    "pg-promise": "^2.9.0",
+    "pg-promise": "^2.9.4",
     "photon": "connors/photon",
     "react": "^0.14.3",
     "react-ace": "^3.0.0",
@@ -30,7 +30,7 @@
     "redux-thunk": "^1.0.2"
   },
   "devDependencies": {
-    "babel-core": "^6.4.0",
+    "babel-core": "^6.4.5",
     "babel-eslint": "^5.0.0-beta6",
     "babel-loader": "^6.2.1",
     "babel-plugin-transform-runtime": "^6.4.3",
