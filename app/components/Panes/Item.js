@@ -1,6 +1,8 @@
 "use strict";
 
 import React, { Component } from "react";
+import classnames from "classnames";
+
 
 export default class Item extends Component {
 
@@ -9,8 +11,11 @@ export default class Item extends Component {
   };
 
   render() {
+
+    const className = classnames(this.props.role, "pane-sm");
+
     return (
-      <div className="pane {this.props.role}">
+      <div className={className}>
         {this.props.children}
       </div>
     );
