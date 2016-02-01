@@ -2,7 +2,6 @@ $padding-base: 16px;
 
 .treeview {
   overflow-x: auto;
-  padding-left: $padding-base;
 
   ul {
     padding: 0;
@@ -11,9 +10,25 @@ $padding-base: 16px;
   }
 
   li {
-    padding: 0;
+    padding-left: $padding-base;
     margin: 0;
     list-style: none;
+
+    .remove {
+      display: none;
+      .icon {
+        cursor: pointer;
+      }
+    }
+
+    &.selected {
+      background-color: lightgreen;
+
+
+      .remove {
+        display: inline;
+      }
+    }
   }
 
   input
@@ -56,8 +71,14 @@ $padding-base: 16px;
       height: 16px;
       line-height: 16px;
       vertical-align: middle;
+      cursor: pointer;
       &:hover {
         text-decoration: underline;
+      }
+      &.item {
+        text-overflow: ellipsis;
+        overflow-x: hidden;
+        width: 120px;
       }
   }
 

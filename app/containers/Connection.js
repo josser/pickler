@@ -1,40 +1,55 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { getConnection } from "reducers/connections";
+import { addToFavorites, save, touchFavorites } from "reducers/config";
+import autobind from "autobind-decorator";
 
 class Connection extends Component {
 
-  constructor (args) {
-    super(args);
-    this.handleConnect = this.handleConnect.bind(this);
-    this.handleDsnChange = this.handleDsnChange.bind(this);
-  }
-
   state = {
-    dsn: 'postgres://josser@localhost/lounge-room'
+    favorite: {
+      payload: {
+        dsn: ''
+      }
+    }
   };
 
+  @autobind
   handleConnect(e) {
     e.preventDefault();
-
-    this.props.dispatch(getConnection(this.state.dsn.trim()));
+    this.props.dispatch(getConnection(this.getSelectedFavorite().payload.dsn.trim()));
   }
 
+  @autobind
+  handleAddToFavorites() {
+    const favorite = this.state.favorite;
+    this.props.dispatch(addToFavorites(favorite.payload.dsn.trim()));
+    this.props.dispatch(save());
+  }
+
+  @autobind
   handleDsnChange(e) {
-   this.setState({dsn: e.target.value});
+    this.props.dispatch(touchFavorites());
+    this.setState({favorite: {payload: {dsn: e.target.value}}});
+  }
+
+  getSelectedFavorite() {
+    return this.props.favorites.filter(item => item.selected)[0] || this.state.favorite;
   }
 
   render() {
-    var dsn = this.state.dsn;
 
     return (
       <form onSubmit={this.handleConnect}>
         <div className="form-group">
           <label>Database DSN</label>
-          <input type="text" className="form-control" placeholder="pgsql://user:password@hostname:port/database" defaultValue={dsn} onChange={this.handleDsnChange} />
+          <input type="text" className="form-control"
+            placeholder="pgsql://user:password@hostname:port/database"
+            value={this.getSelectedFavorite().payload.dsn || this.state.dsn}
+            onChange={this.handleDsnChange} />
         </div>
         <div className="form-actions">
-          <button type="button" className="btn btn-form btn-primary">Add to favorites</button>
+          <button type="button" className="btn btn-form btn-primary" onClick={this.handleAddToFavorites}>Add to favorites</button>
           <button type="submit" className="btn btn-form btn-default">Connect</button>
         </div>
       </form>
@@ -44,4 +59,10 @@ class Connection extends Component {
 
 }
 
-export default connect()(Connection);
+const mapStateToProps = function (state) {
+  return {
+    favorites: state.config.get('favorites').toJS()
+  }
+}
+
+export default connect(mapStateToProps)(Connection);

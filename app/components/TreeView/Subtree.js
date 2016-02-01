@@ -6,27 +6,29 @@ import Item from "./Item";
 
 class Subtree extends Component {
 
-  getSubtree(childs, nextPath) {
+  getSubtree(childs) {
 
     if (childs) {
-      return <Subtree childs={childs} path={nextPath} />
+      return <Subtree
+        onItemRemove={this.props.onItemRemove}
+        onItemClick={this.props.onItemClick}
+        getKey={this.props.getKey}
+      childs={childs} />
     } else {
       return '';
     }
   }
 
   render () {
-    var i = 0;
 
     return (
       <ul>
-
         {this.props.childs.map(item => {
-          var nextPath = this.props.path + '.' + i;
-          i++;
           return (
-            <Item item={item} path={nextPath} key={nextPath}>
-              {this.getSubtree(item.childs, nextPath)}
+            <Item
+              item={item} key={this.props.getKey(item)} reactKey={this.props.getKey(item)}
+              onItemClick={this.props.onItemClick} onItemRemove={this.props.onItemRemove}>
+              {this.getSubtree(item.childs)}
             </Item>
           )
         })}
