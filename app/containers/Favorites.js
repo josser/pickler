@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import TreeView from "components/TreeView";
-import { pushState } from "redux-router";
 import { getConfig, selectFavorite, removeFavorite, save } from "reducers/config";
 import autobind from 'autobind-decorator';
 
@@ -29,7 +28,7 @@ class Favorites extends Component {
   render () {
 
     return (
-      <div>        
+      <div>
         <nav className="nav-group">
           <h5 className="nav-group-title">Favorites</h5>
           <TreeView

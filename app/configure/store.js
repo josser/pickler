@@ -1,12 +1,10 @@
 import DevTools from 'containers/DevTools';
 import { compose, createStore, applyMiddleware } from 'redux';
 import rootReducer from 'reducers';
-import thunk from "redux-thunk";
+import thunkMiddleware from "redux-thunk";
 import createLogger from "redux-logger";
-import router, { routes } from 'configure/router'
 import Immutable from 'immutable';
-let finalCreateStore;
-
+import { routerMiddleware } from "configure/router";
 
 const stateTransformer = (state) => {
   let newState = {};
@@ -26,21 +24,17 @@ const stateTransformer = (state) => {
   return newState;
 }
 
-let middleware = [ thunk, createLogger({stateTransformer}) ];
+const loggerMiddleware = createLogger({stateTransformer});
+var enhancers = [ applyMiddleware(thunkMiddleware, loggerMiddleware, routerMiddleware) ];
 
-if (process.env.NODE_ENV === 'production') {
-  finalCreateStore = compose(
-    applyMiddleware(...middleware),
-    router,
-  )(createStore)
-} else {
-  finalCreateStore = compose(
-    applyMiddleware(...middleware),
-    router,
-    DevTools.instrument()
-  )(createStore)
+if (process.env.NODE_ENV === 'development') {
+  enhancers.push(  DevTools.instrument())
 }
 
 export default function configureStore(initialState) {
-  return finalCreateStore(rootReducer, initialState);
+
+  const store = createStore(rootReducer, initialState, compose(...enhancers));
+  routerMiddleware.listenForReplays(store);
+
+  return store;
 };

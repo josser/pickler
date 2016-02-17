@@ -1,5 +1,4 @@
 import pg from 'pg-promise';
-import { pushState } from 'redux-router';
 
 const CONNECT = 'PICKLER/CONNECTIONS/CONNECT';
 const QUERY = 'PICKLER/CONNECTIONS/QUERY';
@@ -47,11 +46,12 @@ export default function reducer(state = initialState, action = {}) {
     case CONNECT:
 
       var newState = Object.assign({}, state);
+      newState.current = meta;
+
       if (!error) {
 
         if (payload) {
 
-          newState.current = meta;
           newState[meta] = {
             isConnecting: false,
             db: payload
@@ -134,8 +134,6 @@ export function getConnection (dsn) {
         payload: e
       })
     }
-
-    dispatch(pushState(null, '/db/' + dsn));
 
     return dispatch({
       type: CONNECT,

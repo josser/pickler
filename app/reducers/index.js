@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
 import config from 'reducers/config';
 import connections from 'reducers/connections';
-import { routerStateReducer as router } from "redux-router";
+import { routeReducer as routing } from "react-router-redux";
 
 const rootReducer = combineReducers({
-	router,
+	routing,
 	config,
 	connections
 });

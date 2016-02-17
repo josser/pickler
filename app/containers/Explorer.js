@@ -1,57 +1,38 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
-import QueryResults from "containers/QueryResults";
-import {query} from "reducers/connections";
-import AceEditor from 'react-ace';
-import 'brace';
-import 'brace/mode/sql';
-import 'brace/theme/textmate';
 import autobind from 'autobind-decorator';
+import TreeView from "components/TreeView";
+import { getConnection } from "reducers/connections";
+import { load } from "reducers/schema";
 
 class Explorer extends Component {
 
+  componentWillMount() {
 
-  state = {
-    query: 'select * from "Users"'
-  };
+    this.props.dispatch(getConnection(this.props.params.splat)).then(() => {
+        this.props.dispatch(load(this.props.params.splat));
+    });
 
-  @autobind
-  updateQuery(value) {
-    this.setState({query: value});
-  }
-
-  shouldComponentUpdate(nextProps) {
-    return nextProps.newQueryRequested !== this.props.newQueryRequested;
-  }
-
-  componentWillUpdate(nextProps) {
-
-    if (nextProps.newQueryRequested) {
-      this.props.dispatch(query(this.state.query));
-    }
   }
 
   render() {
 
     return (
       <div>
-        <div className="pane">
-          <AceEditor mode="sql" theme="textmate" name="sql-editor" width="100%" highlightActiveLine={true} onChange={this.updateQuery} value={this.state.query} editorProps={{
-            $blockScrolling: true
-          }}/>
-        </div>
-        <div className="pane">
-          <QueryResults/>
-        </div>
-      </div>
+        <nav className="nav-group">
+          <h5 className="nav-group-title">{this.props.params.splat}</h5>
 
-    );
+        </nav>
+      </div>
+    )
   }
 
 }
 
 const mapStateToProps = function(state) {
-  return {newQueryRequested: state.connections.newQueryRequested}
+  return {
+    schema: state.schema
+  }
 }
 
 export default connect(mapStateToProps)(Explorer);
