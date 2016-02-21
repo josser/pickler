@@ -11,9 +11,7 @@ export default class Root extends Component {
 	render() {
 		return (
 			<Provider store={store}>
-				<div>
-					{router}
-				</div>
+				{router}				
 			</Provider>
 		);
 	}
