@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
-import { routeActions } from "react-router-redux";
+import { push } from "react-router-redux";
 import { addToFavorites, save, touchFavorites } from "reducers/config";
 import autobind from "autobind-decorator";
 
@@ -17,7 +17,7 @@ class Connection extends Component {
   @autobind
   handleConnect(e) {
     e.preventDefault();
-    this.props.dispatch(routeActions.push('/db/' + this.getSelectedFavorite().payload.dsn.trim()))
+    this.props.dispatch(push('/db/' + this.getSelectedFavorite().payload.dsn.trim()))
   }
 
   @autobind

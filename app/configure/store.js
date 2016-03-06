@@ -4,8 +4,10 @@ import rootReducer from 'reducers';
 import thunkMiddleware from "redux-thunk";
 import createLogger from "redux-logger";
 import Immutable from 'immutable';
-import { routerMiddleware } from "configure/router";
+import { routerMiddleware as createRouterMiddleware} from 'react-router-redux';
+import { hashHistory } from 'react-router';
 
+// Logging for immutable store
 const stateTransformer = (state) => {
   let newState = {};
 
@@ -24,6 +26,8 @@ const stateTransformer = (state) => {
   return newState;
 }
 
+const routerMiddleware = createRouterMiddleware(hashHistory);
+
 const loggerMiddleware = createLogger({stateTransformer});
 var enhancers = [ applyMiddleware(thunkMiddleware, loggerMiddleware, routerMiddleware) ];
 
@@ -33,8 +37,6 @@ if (process.env.NODE_ENV === 'development') {
 
 export default function configureStore(initialState) {
 
-  const store = createStore(rootReducer, initialState, compose(...enhancers));
-  routerMiddleware.listenForReplays(store);
+  return createStore(rootReducer, initialState, compose(...enhancers));
 
-  return store;
 };
