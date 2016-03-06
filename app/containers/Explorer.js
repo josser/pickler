@@ -1,9 +1,9 @@
-import React, {Component} from 'react';
-import {connect} from "react-redux";
+import React, { Component } from 'react';
+import { connect } from "react-redux";
 import autobind from 'autobind-decorator';
 import TreeView from "components/TreeView";
 import { getConnection } from "reducers/connections";
-import { load } from "reducers/schema";
+import { load, selectSchemaItem } from "reducers/schema";
 
 class Explorer extends Component {
 
@@ -14,6 +14,14 @@ class Explorer extends Component {
     });
 
   }
+  getKey(item) {
+    return item.payload.uuid;
+  }
+
+  @autobind
+  handleExplorerItemSelected(itemPayload) {
+    this.props.dispatch(selectSchemaItem(itemPayload));
+  }
 
   render() {
 
@@ -21,7 +29,10 @@ class Explorer extends Component {
       <div>
         <nav className="nav-group">
           <h5 className="nav-group-title">{this.props.params.splat}</h5>
-
+          <TreeView
+            onItemClick={this.handleExplorerItemSelected}
+            getKey={this.getKey}
+            data={this.props.schema} />
         </nav>
       </div>
     )
@@ -30,8 +41,9 @@ class Explorer extends Component {
 }
 
 const mapStateToProps = function(state) {
+
   return {
-    schema: state.schema
+    schema: state.schema.toJS()
   }
 }
 
