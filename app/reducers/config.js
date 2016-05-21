@@ -1,11 +1,11 @@
-import { app } from "remote";
+import { remote } from "electron";
 import fs from 'fs';
 import path from 'path';
 import Immutable from 'immutable';
 import uuid from 'node-uuid';
 
 const configFileName = 'config.json';
-const configFile = path.join(app.getPath('userData'), configFileName);
+const configFile = path.join(remote.app.getPath('userData'), configFileName);
 
 const GET = 'PICKLER/CONFIG/GET';
 const SAVE = 'PICKLER/CONFIG/SAVE';
